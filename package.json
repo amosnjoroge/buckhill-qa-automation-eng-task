@@ -2,14 +2,18 @@
   "name": "buckhill-qa-automation-eng-task",
   "version": "1.0.0",
   "description": "Interview cypress task of testing an eCommerce web application.",
-  "main": "index.js",
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run"
   },
   "author": "Amos Njoroge",
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@types/node": "^20.5.7",
     "cypress": "12.7.0",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
   }
 }
