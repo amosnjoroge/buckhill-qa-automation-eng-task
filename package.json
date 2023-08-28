@@ -9,7 +9,7 @@
   },
   "author": "Amos Njoroge",
   "devDependencies": {
-    "cypress": "^12.7.0",
+    "cypress": "12.7.0",
     "typescript": "^5.2.2"
   }
 }
