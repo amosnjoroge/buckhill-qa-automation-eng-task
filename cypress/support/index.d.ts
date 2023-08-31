@@ -10,6 +10,17 @@ export interface User {
   is_marketing?: boolean;
 }
 
+export interface Product {
+  uuid?: string;
+  title: string;
+  price: number;
+  description: string;
+  imageId?: string;
+  category: string;
+  quantity?: number;
+  brand?: string;
+}
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -43,6 +54,40 @@ declare global {
        * cy.login('test@example.com', 'test1234')
        */
       login(email: string, password: string): void;
+
+      /**
+       * Custom command to via a product
+       * @param product Product title
+       * @example
+       * cy.viewProduct('Dog Food')
+       */
+      viewProduct(productTitle: string): void;
+
+      /**
+       * Custom command search for a product
+       * @param keyword Keyword to search for
+       * @param productToView Product title to view
+       * @example
+       * cy.searchProduct('dog', 'Dog Food') // search for dog and view Dog Food product
+       * cy.searchProduct('dog') // search for dog and only validate the results
+       */
+      searchProduct(keyword: string, productToView?: string): void;
+
+      /**
+       * Custom command validate the product details page
+       * @param product Product object
+       * @example
+       * cy.validateProductPageDetails({
+       *  title: 'Product Title',
+       *  description: 'Product Description',
+       *  price: 100,
+       *  quantity: 10,
+       *  category: 'Product Category',
+       *  brand: 'Product Brand',
+       *  imageId: '09458a55-e21c-3a30-94a5-54154f0b9717'
+       * })
+       */
+      validateProductPageDetails(product: Product): void;
 
       // API COMMANDS
       /**

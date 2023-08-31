@@ -12,4 +12,10 @@ export const common = {
     logoutButton: 'LOGOUT',
     avatarAriaLabel: '[aria-label="John"]',
   },
+  // Search input field
+  search: {
+    label: 'Search products',
+    resultsPanelClass: '.search__results',
+    resultItemClass: '.text-capitalize',
+  },
 };

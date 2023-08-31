@@ -20,6 +20,12 @@ import './commands/api-commands';
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-before(() => {
-  cy.apiSignUp({ persistUser: true });
+// before(() => {
+//   cy.apiSignUp({ persistUser: true });
+// });
+beforeEach(() => {
+  cy.intercept('GET', '/api/v1/categories?page=*').as('categoriesRequest');
+  cy.intercept('GET', '/api/v1/products?category=*').as('productsRequest');
+  cy.intercept('GET', '/api/v1/product/*').as('productRequest');
+  cy.intercept('GET', '/api/v1/products?title=*').as('searchRequest');
 });
