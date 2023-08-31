@@ -24,6 +24,7 @@ import './commands/api-commands';
 //   cy.apiSignUp({ persistUser: true });
 // });
 beforeEach(() => {
+  cy.intercept('GET', '/api/v1/categories').as('allCategoriesRequest');
   cy.intercept('GET', '/api/v1/categories?page=*').as('categoriesRequest');
   cy.intercept('GET', '/api/v1/products?category=*').as('productsRequest');
   cy.intercept('GET', '/api/v1/product/*').as('productRequest');

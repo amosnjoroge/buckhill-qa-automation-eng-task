@@ -8,3 +8,10 @@ cypress/videos/
 
 # Node
 node_modules/
+
+# dotenv environment variable files
+# .env - Should be commited to repo for the test excerise
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local

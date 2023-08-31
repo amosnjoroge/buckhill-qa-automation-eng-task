@@ -136,9 +136,16 @@ const searchProduct = (keyword: string, productToView?: string) => {
 };
 
 const validateProductPageDetails = (product: Product) => {
-  cy.contains(product.title).should('be.visible');
-  cy.get(imageSrc(product.imageId)).should('be.visible');
+  validateCategoryProductCard(product);
   cy.contains(product.description).should('be.visible');
+};
+
+const validateCategoryProductCard = (product: Product) => {
+  cy.contains(product.title).should('be.visible');
+  if (product.imageId === '') {
+    throw new Error('Product imageId is empty');
+  }
+  cy.get(imageSrc(product.imageId)).should('be.visible');
   cy.contains(`${product.price} Kn`).should('be.visible');
   cy.contains(product.category).should('be.visible');
   cy.contains('button', addToCartButton).should('be.visible');
@@ -150,4 +157,5 @@ Cypress.Commands.addAll({
   viewProduct,
   searchProduct,
   validateProductPageDetails,
+  validateCategoryProductCard,
 });

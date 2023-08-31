@@ -1,31 +1,26 @@
-# Bug #5: Search Product Input Field Still Visible When Viewing a Product
+# Bug [#2](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/5): Logged-In Users (Admin and Normal) Are Logged Out Upon Page Refresh
 
 ## Description
 
-When a user navigates to view a products details page in the [Pet Shop](https://pet-shop.buckhill.com.hr/) application, the search product input field is still visible at the top of the page. This is unexpected behavior, as the search input field should not be visible on the product detail page.
+When a user, whether they are logged in as an admin or a normal user, refreshes any page within the Pet Shop application, they are unexpectedly logged out. This behavior is not consistent with typical user expectations, as users would anticipate remaining logged in even after refreshing a page. The issue is consistently reproducible when the user has not checked the "Remember me" checkbox during login.
 
 ## Steps to Reproduce
 
-1. Open the [Pet Shop](https://pet-shop.buckhill.com.hr/) application in a web browser.
-2. Navigate to any products category listing page.
-3. Click on a specific product to view its details.
+1. Log in as a normal user or an admin in the Pet Shop application without checking the "Remember me" checkbox.
+2. Navigate to any page within the application after successful login.
+3. Refresh the current page using the browser's refresh button or the keyboard shortcut (e.g., F5).
 
 ## Expected Behavior
 
-Upon viewing a product details page, the search product input field should be hidden, allowing the user to focus solely on the product information.
+After a user logs in, they should remain logged in even after refreshing any page within the application, regardless of whether they checked the "Remember me" checkbox. The user's session should persist until they explicitly log out.
 
 ## Actual Behavior
 
-After clicking on a product to view its details, the search product input field is still visible at the top of the page.
-
-## Additional Information
-
-- This issue occurs consistently across different browsers (tested on Chrome, Firefox, and Edge).
-- No JavaScript errors or warnings are displayed in the browser console.
+Upon refreshing any page, logged-in users (both admin and normal users) who did not check the "Remember me" checkbox are logged out and redirected to the login page. This forces users to repeatedly log in after each page refresh, leading to a frustrating experience.
 
 ## Screenshots
 
-![search-input-issues](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/assets/16039248/a57845d2-291c-4ec0-89e5-2753baf2261c)
+https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/assets/16039248/4989d7ca-8cd3-46ca-9ed7-90069f0104c4
 
 ## Environment
 
@@ -40,15 +35,15 @@ After clicking on a product to view its details, the search product input field 
 
 ## Impact
 
-This bug negatively impacts the user experience, as it makes it difficult for users to focus on the product details when the search input field is included in the details page.
+This bug significantly impairs the user experience, as users who have not checked the "Remember me" checkbox are required to log in repeatedly after every page refresh, which is both time-consuming and frustrating.
 
 ## Severity
 
-Medium - The bug interferes with user experience but does not prevent essential functionality.
+High - The unexpected logouts disrupt normal user workflows and negatively impact user engagement.
 
 ## Workaround
 
-Users can manually scroll down to move the search input field out of view when viewing product details.
+As a temporary workaround, users are advised to ensure they check the "Remember me" checkbox during login. This will help maintain their session even after page refreshes. However, this is not available for admin users, as they are not presented with the "Remember me" checkbox during login.
 
 ## Related Bugs
 

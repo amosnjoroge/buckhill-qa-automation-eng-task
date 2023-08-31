@@ -1,4 +1,4 @@
-# Bug #6: User Not Notified of Successful or Failed Registration
+# Bug [#3](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/6): User Not Notified of Successful or Failed Registration
 
 ## Description
 

@@ -1,4 +1,4 @@
-# Bug #4: Incorrect Navigation of Main Navigation Bar Items
+# Bug [#1](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/4): None of the Main Navigation Bar Items Navigate to the Correct Page
 
 ## Description
 

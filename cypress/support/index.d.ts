@@ -21,6 +21,12 @@ export interface Product {
   brand?: string;
 }
 
+export interface Category {
+  uuid?: string;
+  title: string;
+  slug: string;
+}
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -81,13 +87,26 @@ declare global {
        *  title: 'Product Title',
        *  description: 'Product Description',
        *  price: 100,
-       *  quantity: 10,
        *  category: 'Product Category',
        *  brand: 'Product Brand',
        *  imageId: '09458a55-e21c-3a30-94a5-54154f0b9717'
        * })
        */
       validateProductPageDetails(product: Product): void;
+
+      /**
+       * Custom command validate the product card
+       * @param product Product object
+       * @example
+       * cy.validateCategoryProductCard({
+       *  title: 'Product Title',
+       *  price: 100,
+       *  category: 'Product Category',
+       *  brand: 'Product Brand',
+       *  imageId: '09458a55-e21c-3a30-94a5-54154f0b9717'
+       * })
+       */
+      validateCategoryProductCard(product: Product): void;
 
       // API COMMANDS
       /**
