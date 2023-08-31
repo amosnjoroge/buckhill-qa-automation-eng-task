@@ -1,5 +1,7 @@
+import { Product } from '..';
 import { loginModal, signUpModal } from '../selectors/access';
 import { common } from '../selectors/common';
+import { addToCartButton, imageSrc } from '../selectors/product';
 import { buildUser } from '../utils/test-data';
 
 const login = (email: string, password: string) => {
@@ -62,4 +64,90 @@ const signUp = (user = buildUser()) => {
   cy.wrap(user).as('newUser');
 };
 
-Cypress.Commands.addAll({ signUp, login });
+const addToCart = (product: string) => {};
+
+const removeFromCart = (product: string) => {};
+
+const checkout = () => {};
+
+const viewProduct = (productTitle: string) => {
+  cy.contains(productTitle).click();
+  cy.wait('@productRequest').then(({ response }) => {
+    cy.wrap(response.statusCode).should('eq', 200);
+
+    const { data } = response.body;
+
+    const product: Product = {
+      uuid: data.uuid,
+      title: data.title,
+      price: data.price,
+      description: data.description,
+      imageId: data.metadata.image,
+      category: data.category.title,
+    };
+
+    cy.validateProductPageDetails(product);
+  });
+};
+
+const searchProduct = (keyword: string, productToView?: string) => {
+  cy.contains('label', common.search.label)
+    .parent()
+    .find('input')
+    .type(`${keyword}{enter}`);
+  cy.wait('@searchRequest').then(({ response }) => {
+    cy.wrap(response.statusCode).should('eq', 200);
+
+    const products: Product[] = response.body.data.map((dataItem) => ({
+      uuid: dataItem.uuid,
+      title: dataItem.title,
+      price: dataItem.price,
+      description: dataItem.description,
+      imageId: dataItem.metadata.image,
+      category: dataItem.category.title,
+      quantity: dataItem.quantity,
+    }));
+
+    cy.get(common.search.resultsPanelClass)
+      .should('be.visible')
+      .within(() => {
+        cy.get(common.search.resultItemClass)
+          .should('have.length', products.length)
+          .each(($item, index) => {
+            cy.wrap($item)
+              .should('be.visible')
+              .and('contain.text', keyword)
+              .and('have.text', products[index].title);
+          });
+      });
+
+    if (productToView) {
+      const product = products.find(
+        (product) => product.title === productToView
+      );
+      cy.intercept('GET', `/api/v1/product/${product.uuid}`).as(
+        'productRequest'
+      );
+      cy.contains(productToView).click();
+      cy.wait('@productRequest');
+      cy.validateProductPageDetails(product);
+    }
+  });
+};
+
+const validateProductPageDetails = (product: Product) => {
+  cy.contains(product.title).should('be.visible');
+  cy.get(imageSrc(product.imageId)).should('be.visible');
+  cy.contains(product.description).should('be.visible');
+  cy.contains(`${product.price} Kn`).should('be.visible');
+  cy.contains(product.category).should('be.visible');
+  cy.contains('button', addToCartButton).should('be.visible');
+};
+
+Cypress.Commands.addAll({
+  signUp,
+  login,
+  viewProduct,
+  searchProduct,
+  validateProductPageDetails,
+});
