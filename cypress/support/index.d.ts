@@ -27,6 +27,14 @@ export interface Category {
   slug: string;
 }
 
+export interface Card {
+  cardNumber: string;
+  expiryDate: string;
+  cvv: string;
+}
+
+export type PaymentType = 'credit_card' | 'cash_on_delivery' | 'bank_transfer';
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -59,7 +67,7 @@ declare global {
        * @example
        * cy.login('test@example.com', 'test1234')
        */
-      login(email: string, password: string): void;
+      login(email: string, password: string, admin?: boolean): void;
 
       /**
        * Custom command to via a product
@@ -108,6 +116,19 @@ declare global {
        */
       validateCategoryProductCard(product: Product): void;
 
+      /**
+       * Custom command validate the latest order table
+       * @param orders Array of orders
+       * @example
+       * cy.validateLatestOrderTable([
+       *  { uuid: 'a6321a0c-9b10-3382-9c7c-dafc50161c8c', status: 'open' },
+       *  { uuid: '09458a55-e21c-3a30-94a5-54154f0b9717', status: 'shipped' }
+       * ])
+       */
+      validateLatestOrderTable(
+        orders: { uuid: string; status: string }[]
+      ): void;
+
       // API COMMANDS
       /**
        * Custom command to register a new user via the api.
@@ -137,6 +158,32 @@ declare global {
         user?: User;
         persistUser: boolean;
       }): Chainable<User>;
+
+      /**
+       * Custom command to login a user via the api
+       *
+       * @param email user email
+       * @param password user password
+       *
+       * @example
+       * cy.apiLogin('test@test.com', 'userpassword')
+       */
+      apiLogin(
+        email: string,
+        password: string
+      ): Chainable<{ token: string; ttl: string }>;
+
+      /**
+       * Custom command to place an order via the api
+       * @param productsInCart Array of products in cart
+       * @param address Object with shipping and billing address
+       * @param paymentType Payment type
+       */
+      apiPlaceOrder(
+        productsInCart: Product[],
+        address: { shipping: string; billing: string },
+        paymentType: PaymentType
+      ): Chainable<string>;
     }
   }
 }

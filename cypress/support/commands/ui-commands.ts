@@ -4,7 +4,7 @@ import { common } from '../selectors/common';
 import { addToCartButton, imageSrc } from '../selectors/product';
 import { buildUser } from '../utils/test-data';
 
-const login = (email: string, password: string) => {
+const login = (email: string, password: string, admin = false) => {
   cy.intercept('POST', '/api/v1/user/login').as('loginRequest');
   cy.visit('/');
   cy.contains(common.navigationBar.loginButton).click();
@@ -13,11 +13,13 @@ const login = (email: string, password: string) => {
     .parent()
     .find('input')
     .type(password);
+  cy.contains(loginModal.rememberMeCheckbox).parent().find('input').check();
   cy.contains('button', loginModal.loginButton).click();
 
   cy.wait('@loginRequest').then(({ response }) => {
     cy.wrap(response.statusCode).should('eq', 200);
-    cy.wrap(response.body.data.token).as('accessToken');
+    cy.wrap(response.body.data.token, { log: false }).as('accessToken');
+    globalThis.accessToken = response.body.data.token;
   });
   cy.get(common.navigationBar.avatarAriaLabel).should('be.visible');
 };
@@ -67,8 +69,6 @@ const signUp = (user = buildUser()) => {
 const addToCart = (product: string) => {};
 
 const removeFromCart = (product: string) => {};
-
-const checkout = () => {};
 
 const viewProduct = (productTitle: string) => {
   cy.contains(productTitle).click();
@@ -151,6 +151,26 @@ const validateCategoryProductCard = (product: Product) => {
   cy.contains('button', addToCartButton).should('be.visible');
 };
 
+const validateLatestOrderTable = (
+  orders: { uuid: string; status: string }[]
+) => {
+  const latestOrdersTable = common.settingsModal.ordersTable;
+  cy.get(latestOrdersTable.class).within(() => {
+    common.settingsModal.ordersTable.headers.forEach((header) => {
+      cy.contains(header).should('be.visible');
+    });
+    orders.forEach((order, index) => {
+      cy.get(latestOrdersTable.rows)
+        .eq(index)
+        .within(() => {
+          cy.contains(order.uuid).should('be.visible');
+          cy.contains(order.status).should('be.visible');
+          cy.get(latestOrdersTable.downloadIconClass).should('be.visible');
+        });
+    });
+  });
+};
+
 Cypress.Commands.addAll({
   signUp,
   login,
@@ -158,4 +178,5 @@ Cypress.Commands.addAll({
   searchProduct,
   validateProductPageDetails,
   validateCategoryProductCard,
+  validateLatestOrderTable,
 });

@@ -18,4 +18,16 @@ export const common = {
     resultsPanelClass: '.search__results',
     resultItemClass: '.text-capitalize',
   },
+  // Settings modal
+  settingsModal: {
+    title: 'Settings',
+    modalClass: '.settings',
+    ordersTable: {
+      title: 'Latest orders',
+      headers: ['Order UUID', 'Status', 'Download Invoice'],
+      class: '.orders-table',
+      rows: 'tbody tr',
+      downloadIconClass: '.download-icon',
+    },
+  },
 };
