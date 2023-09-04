@@ -48,7 +48,6 @@ declare global {
        * cy.signUp({
        *   email: 'john_doe@example.com',
        *   password: 'test1234',
-       *   password_confirmation: 'test1234',
        *   first_name: 'John',
        *   last_name: 'Doe',
        *   phone: '+1234567890',
@@ -59,15 +58,67 @@ declare global {
       signUp(user?: User): Chainable<User>;
 
       /**
-       * Custom command to login a user
-       *
-       * @param email user email
-       * @param password user password
+       * Custom command to register a new user by an admin.
+       * @param user User object
        *
        * @example
-       * cy.login('test@example.com', 'test1234')
+       * cy.adminAddCustomer() // register a new user with random data
+       * cy.adminAddCustomer({
+       *   email: 'john_doe@example.com',
+       *   password: 'test1234',
+       *   first_name: 'John',
+       *   last_name: 'Doe',
+       *   phone: '+1234567890',
+       *   address: 'First Street 1, 10000 Zagreb, Croatia',
+       * })
        */
-      login(email: string, password: string, admin?: boolean): void;
+      adminAddCustomer(user?: User): Chainable<User>;
+
+      /**
+       * Custom command to update a user by an admin.
+       * @param userEmail User email to update
+       * @param detailsToUpdate User object consisting of the details to update
+       *
+       * @example
+       * cy.adminEditCustomer(
+       * 'test@user.com',
+       * {
+       *   password: 'test1234',
+       *   first_name: 'John',
+       *   last_name: 'Doe',
+       *   address: 'First Street 1, 10000 Zagreb, Croatia',
+       * })
+       */
+      adminEditCustomer(
+        userEmail: string,
+        detailsToUpdate: Partial<User>
+      ): void;
+
+      /**
+       * Custom command to delete a user by an admin.
+       * @param userEmail User email to delete
+       * @param fullName User full name
+       * @example
+       * cy.adminDeleteCustomer('test@test.com', 'Test User')
+       */
+      adminDeleteCustomer(userEmail: string, fullName: string): void;
+
+      /**
+       * Custom command to login a user
+       *
+       * @param credentials.email user email
+       * @param credentials.password user password
+       * @param credentials.admin login as admin
+       *
+       * @example
+       * cy.login({ 'test@example.com', 'test1234' })
+       * cy.login({ 'admin@example.com', 'test1234', true })
+       */
+      login(credentials?: {
+        email?: string;
+        password?: string;
+        admin?: boolean;
+      }): void;
 
       /**
        * Custom command to via a product
@@ -136,7 +187,6 @@ declare global {
        * @returns User object
        * @example
        * cy.apiSignUp() // register a new user with random data
-       * cy.apiSignUp({ persistUser: true }) // register a new user with random data and persist it
        * cy.apiSignUp({
        *  user: {
        *   email: 'john_doe@example.com',
@@ -148,16 +198,9 @@ declare global {
        *   address: 'First Street 1, 10000 Zagreb, Croatia',
        *   is_marketing: true
        *  },
-       *  persistUser: true
        * })
        */
-      apiSignUp({
-        user,
-        persistUser,
-      }?: {
-        user?: User;
-        persistUser: boolean;
-      }): Chainable<User>;
+      apiSignUp(user?: User): Chainable<User>;
 
       /**
        * Custom command to login a user via the api

@@ -30,4 +30,20 @@ export const common = {
       downloadIconClass: '.download-icon',
     },
   },
+  // User form inputs
+  userForm: {
+    firstNameLabel: 'First Name',
+    lastNameLabel: 'Last Name',
+    emailLabel: /Email/,
+    emailAddressLabel: /Email Address/,
+    phoneLabel: 'Phone Number',
+    addressLabel: /Address/,
+    locationLabel: 'Location',
+    passwordLabel: /Password/,
+    passwordConfirmationLabel: /Confirm Password/,
+  },
+  // Common elements
+  deleteButtonLabel: 'DELETE',
+  deleteConfirmMessage: (name: string) =>
+    `Are you sure you want to delete ${name}`,
 };

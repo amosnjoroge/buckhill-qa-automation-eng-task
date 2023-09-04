@@ -1,61 +1,131 @@
-import { Product } from '..';
+import { Product, User } from '..';
 import { loginModal, signUpModal } from '../selectors/access';
+import { customerPage } from '../selectors/admin';
 import { common } from '../selectors/common';
 import { addToCartButton, imageSrc } from '../selectors/product';
 import { buildUser } from '../utils/test-data';
 
-const login = (email: string, password: string, admin = false) => {
-  cy.intercept('POST', '/api/v1/user/login').as('loginRequest');
-  cy.visit('/');
-  cy.contains(common.navigationBar.loginButton).click();
+const login = ({
+  email = Cypress.env('ADMIN_EMAIL') as string,
+  password = Cypress.env('ADMIN_PASSWORD') as string,
+  admin = false,
+} = {}) => {
+  if (admin) {
+    cy.visit('/login');
+  } else {
+    cy.visit('/');
+    cy.contains(common.navigationBar.loginButton).click();
+  }
+
   cy.contains(loginModal.emailInputLabel).parent().find('input').type(email);
   cy.contains(loginModal.passwordInputLabel)
     .parent()
     .find('input')
     .type(password);
-  cy.contains(loginModal.rememberMeCheckbox).parent().find('input').check();
+  if (!admin)
+    cy.contains(loginModal.rememberMeCheckbox).parent().find('input').check();
   cy.contains('button', loginModal.loginButton).click();
 
-  cy.wait('@loginRequest').then(({ response }) => {
-    cy.wrap(response.statusCode).should('eq', 200);
-    cy.wrap(response.body.data.token, { log: false }).as('accessToken');
-    globalThis.accessToken = response.body.data.token;
-  });
+  cy.wait(admin ? '@adminLoginRequest' : '@userLoginRequest').then(
+    ({ response }) => {
+      cy.wrap(response.statusCode).should('eq', 200);
+      cy.wrap(response.body.data.token, { log: false }).as('accessToken');
+      globalThis.accessToken = response.body.data.token;
+    }
+  );
   cy.get(common.navigationBar.avatarAriaLabel).should('be.visible');
+};
+
+const fillNewUserForm = (
+  user: Partial<User>,
+  { edit = false, admin = false } = {}
+) => {
+  const {
+    firstNameLabel,
+    lastNameLabel,
+    emailLabel,
+    phoneLabel,
+    addressLabel,
+    locationLabel,
+    passwordLabel,
+    passwordConfirmationLabel,
+  } = common.userForm;
+  if (user.first_name)
+    cy.contains(firstNameLabel)
+      .parent()
+      .find('input')
+      .then(($input) => {
+        if (edit) {
+          cy.wrap($input).clear();
+        }
+        cy.wrap($input).type(user.first_name);
+      });
+  if (user.last_name)
+    cy.contains(lastNameLabel)
+      .parent()
+      .find('input')
+      .then(($input) => {
+        if (edit) {
+          cy.wrap($input).clear();
+        }
+        cy.wrap($input).type(user.last_name);
+      });
+  if (user.email)
+    cy.contains(emailLabel)
+      .parent()
+      .find('input')
+      .then(($input) => {
+        if (edit) {
+          cy.wrap($input).clear();
+        }
+        cy.wrap($input).type(user.email);
+      });
+  if (user.phone_number)
+    cy.contains(phoneLabel)
+      .parent()
+      .find('input')
+      .then(($input) => {
+        if (edit) {
+          cy.wrap($input).clear();
+        }
+        cy.wrap($input).type(user.phone_number);
+      });
+  if (user.address)
+    cy.contains(admin ? locationLabel : addressLabel)
+      .parent()
+      .find('input')
+      .then(($input) => {
+        if (edit) {
+          cy.wrap($input).clear();
+        }
+        cy.wrap($input).type(user.address);
+      });
+  if (user.password) {
+    cy.contains(passwordLabel)
+      .parent()
+      .find('input')
+      .then(($input) => {
+        if (edit) {
+          cy.wrap($input).clear();
+        }
+        cy.wrap($input).type(user.password);
+      });
+    cy.contains(passwordConfirmationLabel)
+      .parent()
+      .find('input')
+      .then(($input) => {
+        if (edit) {
+          cy.wrap($input).clear();
+        }
+        cy.wrap($input).type(user.password);
+      });
+  }
 };
 
 const signUp = (user = buildUser()) => {
   cy.contains(common.navigationBar.loginButton).click();
   cy.contains(loginModal.registerLinkLabel).click();
-
-  cy.contains(signUpModal.firstNameInputLabel)
-    .parent()
-    .find('input')
-    .type(user.first_name);
-  cy.contains(signUpModal.lastNameInputLabel)
-    .parent()
-    .find('input')
-    .type(user.last_name);
-  cy.contains(signUpModal.emailInputLabel)
-    .parent()
-    .find('input')
-    .type(user.email);
-  cy.contains(signUpModal.phoneInputLabel)
-    .parent()
-    .find('input')
-    .type(user.phone_number);
-  cy.contains(signUpModal.addressInputLabel)
-    .parent()
-    .find('input')
-    .type(user.address);
-  cy.contains(signUpModal.passwordInputLabel)
-    .parent()
-    .find('input')
-    .type(user.password);
-  cy.contains(signUpModal.passwordConfirmationInputLabel)
-    .parent()
-    .find('input')
-    .type(user.password);
+  fillNewUserForm(user);
   if (user.is_marketing)
     cy.contains(signUpModal.isMarketingCheckboxLabel)
       .parent()
@@ -66,9 +136,59 @@ const signUp = (user = buildUser()) => {
   cy.wrap(user).as('newUser');
 };
 
-const addToCart = (product: string) => {};
+const adminAddCustomer = (user = buildUser()) => {
+  cy.contains(customerPage.addNewCustomerLabel).click();
+  cy.get(customerPage.customerModalClass)
+    .should('be.visible')
+    .within(() => {
+      cy.contains('.text-h5', customerPage.addNewCustomerLabel).should(
+        'be.visible'
+      );
+      fillNewUserForm(user, { admin: true });
+      cy.contains('button', customerPage.addNewCustomerLabel).click({
+        force: true,
+      });
+    });
 
-const removeFromCart = (product: string) => {};
+  cy.wrap(user).as('newUser');
+};
+
+const adminEditCustomer = (
+  userEmail: string,
+  detailsToUpdate: Partial<User>
+) => {
+  cy.contains(userEmail)
+    .parentsUntil('tbody')
+    .within(() => {
+      cy.get(customerPage.customerActionButtonClass).click();
+      cy.get(customerPage.customerEditIconClass).parent().click();
+    });
+  cy.get(customerPage.customerModalClass)
+    .should('be.visible')
+    .within(() => {
+      cy.contains('.text-h5', customerPage.editCustomerLabel).should(
+        'be.visible'
+      );
+      fillNewUserForm(detailsToUpdate, { admin: true, edit: true });
+      cy.contains('button', customerPage.updateCustomerLabel).click({
+        force: true,
+      });
+    });
+};
+
+const adminDeleteCustomer = (userEmail: string, fullName: string) => {
+  cy.contains(userEmail)
+    .parentsUntil('tbody')
+    .within(() => {
+      cy.get(customerPage.customerActionButtonClass).click();
+      cy.get(customerPage.customerDeleteIconClass).parent().click();
+    });
+  cy.contains(common.deleteConfirmMessage(fullName)).should('be.visible');
+  cy.realPress('Tab');
+  cy.realPress('Enter');
+
+  cy.contains(userEmail).should('not.exist');
+};
 
 const viewProduct = (productTitle: string) => {
   cy.contains(productTitle).click();
@@ -173,6 +293,9 @@ const validateLatestOrderTable = (
 
 Cypress.Commands.addAll({
   signUp,
+  adminAddCustomer,
+  adminEditCustomer,
+  adminDeleteCustomer,
   login,
   viewProduct,
   searchProduct,
