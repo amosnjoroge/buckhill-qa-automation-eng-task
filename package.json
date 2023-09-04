@@ -11,6 +11,7 @@
     "@faker-js/faker": "^8.0.2",
     "@types/node": "^20.5.7",
     "cypress": "12.7.0",
+    "cypress-real-events": "^1.10.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {

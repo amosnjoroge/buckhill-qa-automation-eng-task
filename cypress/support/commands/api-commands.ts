@@ -33,7 +33,7 @@ const apiLogin = (email: string, password: string) => {
 
     const token = {
       token: bearerToken,
-      ttl: decodedBearerTokenPayload.exp + 3600,
+      ttl: decodedBearerTokenPayload.exp + 36000,
     };
 
     localStorage.setItem('token', JSON.stringify(token));

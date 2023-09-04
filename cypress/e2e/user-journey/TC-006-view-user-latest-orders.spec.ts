@@ -1,10 +1,11 @@
 import { Product, User } from '../../support';
 import { common } from '../../support/selectors/common';
 
-describe('Adding Product To Cart', () => {
-  it(`TC-005: Adding Product to Cart from Product Details Page.`, () => {
+describe('Viewing Users Orders', () => {
+  it('TC-006: A registered user wants to view their latest orders categorised by their status.', () => {
     cy.apiSignUp().then((user: User) => {
-      cy.login(user.email, user.password);
+      const { email, password } = user;
+      cy.login({ email, password });
 
       cy.wait('@productsRequest').then(({ response }) => {
         const products: Product[] = response.body.data;
