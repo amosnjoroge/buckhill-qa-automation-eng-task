@@ -72,14 +72,6 @@ npm run cy:run
 
 _This commands will launch the Cypress Test Runner and execute the test suite._
 
-### In the CI
-
-The project contains a [Github Actions](https://github.com/features/actions) workflow that run the test in the CI. The workflow is triggered by the creation of a pull request. The workflow definition can be found [here](.github/workflow/e2e-tests.yml)
-
-> 💬 **Note**
->
-> In case of a failure the screenshot and videos are store s CI artifacts.
-
 ## Folder Structure
 
 - `bugs/` - Contains bug reports found during testing
