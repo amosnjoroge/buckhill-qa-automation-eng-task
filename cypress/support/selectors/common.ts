@@ -43,6 +43,8 @@ export const common = {
     passwordConfirmationLabel: /Confirm Password/,
   },
   // Common elements
+  editIconClass: '.mdi-pencil',
+  deleteIconClass: '.mdi-delete',
   deleteButtonLabel: 'DELETE',
   deleteConfirmMessage: (name: string) =>
     `Are you sure you want to delete ${name}`,

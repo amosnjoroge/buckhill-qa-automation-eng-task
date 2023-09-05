@@ -12,6 +12,7 @@ beforeEach(() => {
   cy.intercept('GET', '/api/v1/product/*').as('productRequest');
   cy.intercept('GET', '/api/v1/products?title=*').as('searchRequest');
   cy.intercept('GET', '/api/v1/user/orders?page=*').as('userOrdersRequest');
+  cy.intercept('POST', '/api/v1/file/upload').as('fileUploadRequest');
 });
 
 Cypress.on('uncaught:exception', (err) => {

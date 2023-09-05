@@ -4,7 +4,9 @@ import { common } from '../../support/selectors/common';
 const { customersHref, customersLabel } = leftSideBar;
 
 describe('Admin Customer Creation', () => {
-  // This test will fail because of the bug in the application: https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/22
+  /**
+   * Test expected to fail due to a bug in the application: https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/22
+   */
   it('TC-007: An admin user wants to create a new customer user account.', () => {
     cy.login({ admin: true });
     cy.get(customersHref).should('contain.text', customersLabel).click();

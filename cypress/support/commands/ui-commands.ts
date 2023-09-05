@@ -1,9 +1,9 @@
 import { Product, User } from '..';
 import { loginModal, signUpModal } from '../selectors/access';
-import { customerPage } from '../selectors/admin';
+import { customerPage, productPage } from '../selectors/admin';
 import { common } from '../selectors/common';
 import { addToCartButton, imageSrc } from '../selectors/product';
-import { buildUser } from '../utils/test-data';
+import { buildProduct, buildUser } from '../utils/test-data';
 
 const login = ({
   email = Cypress.env('ADMIN_EMAIL') as string,
@@ -161,7 +161,7 @@ const adminEditCustomer = (
     .parentsUntil('tbody')
     .within(() => {
       cy.get(customerPage.customerActionButtonClass).click();
-      cy.get(customerPage.customerEditIconClass).parent().click();
+      cy.get(common.editIconClass).parent().click();
     });
   cy.get(customerPage.customerModalClass)
     .should('be.visible')
@@ -181,13 +181,80 @@ const adminDeleteCustomer = (userEmail: string, fullName: string) => {
     .parentsUntil('tbody')
     .within(() => {
       cy.get(customerPage.customerActionButtonClass).click();
-      cy.get(customerPage.customerDeleteIconClass).parent().click();
+      cy.get(common.deleteIconClass).parent().click();
     });
   cy.contains(common.deleteConfirmMessage(fullName)).should('be.visible');
   cy.realPress('Tab');
   cy.realPress('Enter');
 
   cy.contains(userEmail).should('not.exist');
+};
+
+const adminAddNewProduct = (product = buildProduct()) => {
+  cy.contains(productPage.addNewProductLabel).click();
+  cy.get(productPage.productModalClass)
+    .should('be.visible')
+    .within(() => {
+      cy.fixture(product.imageFile, null).as('productImageFile');
+      cy.get(productPage.productModalImageInputId).selectFile(
+        '@productImageFile',
+        { force: true }
+      );
+      cy.wait('@fileUploadRequest').then(({ response }) => {
+        cy.wrap(response.statusCode).should('eq', 200);
+        cy.get(imageSrc(response.body.data.uuid)).should('be.visible');
+      });
+    });
+
+  cy.wrap(product).as('newProduct');
+};
+
+const adminEditNewProduct = (
+  productTitle: string,
+  newProductInfo: Partial<Product>
+) => {
+  cy.get(productPage.productsListClass).within(() => {
+    cy.contains(productTitle)
+      .should('be.visible')
+      .parentsUntil('tbody')
+      .within(() => {
+        cy.get(productPage.productActionButtonClass).click();
+        cy.get(common.editIconClass).click();
+      });
+  });
+  cy.get(productPage.productModalClass)
+    .should('be.visible')
+    .within(() => {
+      if (newProductInfo.imageFile) {
+        cy.fixture(newProductInfo.imageFile, null).as('productImageFile');
+        cy.get(productPage.productModalImageInputId).selectFile(
+          '@productImageFile',
+          { force: true }
+        );
+        cy.wait('@fileUploadRequest').then(({ response }) => {
+          cy.wrap(response.statusCode).should('eq', 200);
+          cy.get(imageSrc(response.body.data.uuid)).should('be.visible');
+          newProductInfo.imageId = response.body.data.uuid;
+        });
+      }
+      if (newProductInfo.title)
+        cy.contains(productPage.productModalNameInputLabel)
+          .parent()
+          .find('input')
+          .clear()
+          .type(newProductInfo.title);
+      if (newProductInfo.description)
+        cy.contains(productPage.productModalDescriptionTextAreaLabel)
+          .parent()
+          .find('textarea')
+          .clear()
+          .type(newProductInfo.description);
+      cy.contains('button', productPage.productModalSaveButton)
+        .should('be.enabled')
+        .click();
+    });
+  cy.get(productPage.productModalClass).should('not.exist');
+  cy.wrap(newProductInfo).as('editProduct');
 };
 
 const viewProduct = (productTitle: string) => {
@@ -262,10 +329,7 @@ const validateProductPageDetails = (product: Product) => {
 
 const validateCategoryProductCard = (product: Product) => {
   cy.contains(product.title).should('be.visible');
-  if (product.imageId === '') {
-    throw new Error('Product imageId is empty');
-  }
-  cy.get(imageSrc(product.imageId)).should('be.visible');
+  if (product.imageId) cy.get(imageSrc(product.imageId)).should('be.visible');
   cy.contains(`${product.price} Kn`).should('be.visible');
   cy.contains(product.category).should('be.visible');
   cy.contains('button', addToCartButton).should('be.visible');
@@ -292,11 +356,13 @@ const validateLatestOrderTable = (
 };
 
 Cypress.Commands.addAll({
+  login,
   signUp,
   adminAddCustomer,
   adminEditCustomer,
   adminDeleteCustomer,
-  login,
+  adminAddNewProduct,
+  adminEditNewProduct,
   viewProduct,
   searchProduct,
   validateProductPageDetails,
