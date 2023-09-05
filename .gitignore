@@ -5,6 +5,7 @@ logs
 # Cypress specific
 cypress/screenshots/
 cypress/videos/
+cypress/downloads/
 
 # Node
 node_modules/
