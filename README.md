@@ -11,7 +11,6 @@ This repository contains automated tests of a pseudo eCommerce pet shop web appl
   - [Configuration](#configuration)
   - [Running the tests](#running-the-tests)
     - [Locally](#locally)
-    - [In the CI](#in-the-ci)
   - [Folder Structure](#folder-structure)
   - [Bugs logged during testing](#bugs-logged-during-testing)
   - [Test Cases automated](#test-cases-automated)
