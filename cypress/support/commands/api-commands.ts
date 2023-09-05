@@ -1,7 +1,7 @@
 import * as qs from 'qs';
 
 import { PaymentType, Product } from '..';
-import { buildCreditCard, buildUser } from '../utils/test-data';
+import { buildCreditCard, buildProduct, buildUser } from '../utils/test-data';
 
 const apiSignUp = ({ user = buildUser() } = {}) => {
   cy.request({
@@ -93,4 +93,42 @@ const apiPlaceOrder = (
   });
 };
 
-Cypress.Commands.addAll({ apiSignUp, apiLogin, apiPlaceOrder });
+const apiAddProduct = (product = buildProduct()) => {
+  cy.request({
+    url: '/api/v1/brands',
+    headers: { Authorization: `Bearer ${globalThis.accessToken}` },
+  }).then((response) => {
+    const brandUuid = response.body.data.find(
+      (brand) => (brand.title = product.brand)
+    ).uuid;
+    cy.request({
+      url: '/api/v1/categories',
+      headers: { Authorization: `Bearer ${globalThis.accessToken}` },
+    }).then((response) => {
+      const categoryUuid = response.body.data.find(
+        (category) => (category.title = product.category)
+      ).uuid;
+      cy.request({
+        method: 'POST',
+        url: '/api/v1/product/create',
+        headers: { Authorization: `Bearer ${globalThis.accessToken}` },
+        form: true,
+        body: qs.stringify({
+          category_uuid: categoryUuid,
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          metadata: JSON.stringify({
+            brand: brandUuid,
+            image: product.imageId || '',
+          }),
+        }),
+      }).then((response) => {
+        product.uuid = response.body.data.uuid;
+        cy.wrap(product).as('newProduct');
+      });
+    });
+  });
+};
+
+Cypress.Commands.addAll({ apiSignUp, apiLogin, apiPlaceOrder, apiAddProduct });

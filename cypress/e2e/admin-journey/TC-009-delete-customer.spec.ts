@@ -2,8 +2,8 @@ import { leftSideBar } from '../../support/selectors/admin';
 
 const { customersHref, customersLabel } = leftSideBar;
 
-describe('Admin Customer Edit', () => {
-  it('TC-007: An admin user wants to update a new customer user account.', () => {
+describe('Admin Customer Deletion', () => {
+  it('TC-009: An admin user wants to update a new customer user account.', () => {
     cy.apiSignUp().then((user) => {
       cy.login({ admin: true });
       cy.get(customersHref).should('contain.text', customersLabel).click();

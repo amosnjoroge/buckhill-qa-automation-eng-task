@@ -37,7 +37,13 @@ export const buildProduct = (overrides?: Partial<Product>): Product => {
     title: faker.commerce.productName(),
     price: Number(faker.commerce.price()),
     description: faker.commerce.productDescription(),
-    category: faker.commerce.department(),
+    category: faker.helpers.arrayElement([
+      'cat litter',
+      'pet oral care',
+      'dry dog food',
+    ]),
+    brand: faker.helpers.arrayElement(['blue', 'hills', 'acana']),
+    imageFile: 'test-image.jpg',
     ...overrides,
   };
 };

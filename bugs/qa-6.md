@@ -21,12 +21,6 @@ After an admin user creates a new user, the user account should be successfully 
 
 Despite completing the user creation process, the newly created user account does not persist in the database. As a result, the user cannot log in with the provided credentials, and the account does not appear in the application's user list.
 
-## Additional Information
-
-- This issue consistently occurs across different browsers and operating systems.
-- No JavaScript errors or warnings related to user creation are displayed in the browser console.
-- Other functionalities within the application, such as editing existing users, appear to work as expected.
-
 ## Environment
 
 - Browser: Chrome (Version 115.0.5790.114)

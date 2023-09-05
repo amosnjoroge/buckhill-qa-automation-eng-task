@@ -1,33 +1,39 @@
-# Bug [#4](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/13): Product Images of the First Category on the Landing Page Are Not Displayed
+# Bug [#4](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/24): Error "Undefined array key 'category_uuid'" When Creating a Product by an Admin
 
 ## Description
 
-On the landing page of the Pet Shop application, the product images for the first category are not being displayed. The reason for this issue is that the first products backend request's response metadata does not include the values for the and image uuid. As a result, the images are not loading and are failing to display. This issue affects the visual presentation of the landing page and hampers the user's ability to view and select products from the first category.
+When an admin user attempts to create a new product within the Pet Shop application, an error message is displayed, stating "Undefined array key 'category_uuid'." This error prevents the successful creation of the product and impacts the admin's ability to add new products to the system.
 
 ## Steps to Reproduce
 
-1. Navigate to the Pet Shop application's landing page.
-2. Locate the first product category section.
-3. Observe the product images and the products.
+1. Navigate to the Pet Shop application.
+2. Log in as an admin user with appropriate administrative privileges.
+3. Access the products page.
+4. Click on "ADD NEW PRODUCT" button
+5. Fill in the required product details, including:
+   - Product Name
+   - Product Description
+   - Price
+   - Brand
+   - Category
+6. Click the "SAVE CHANGES" button to create the new product.
 
 ## Expected Behavior
 
-Product images associated with the first category should be displayed within the designated section on the landing page. The images should help users identify and select products to explore further.
+After creating a new product as an admin user, the product details, including the category, should be accurately processed, and the product should be successfully added to the application's product database.
 
 ## Actual Behavior
 
-The product images for the first category on the landing page are not visible due to the absence of image UUIDs and metadata information of the returned products request. This leads to an incomplete and unappealing presentation of the products, making it challenging for users to engage with the content.
-
-## Screenshots
-
-![image](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/assets/16039248/0334bf81-d468-4ffc-b405-e52d24f98257)
-
-![image](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/assets/16039248/8dba309c-fee4-476a-a7f3-113ce76adcdb)
+Upon clicking the "SAVE CHANGES" button to create the new product, an error message is displayed: "Undefined array key 'category_uuid'." This error indicates a problem with the processing of the category information, preventing the successful creation of the product.
 
 ## Environment
 
 - Browser: Chrome (Version 115.0.5790.114)
 - Operating System: macOS 13.4.1
+
+## Screenshots
+
+![image](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/assets/16039248/ff3c1b64-c8e3-43d8-a4ea-07c7a2bb5298)
 
 ## Reproducibility
 
@@ -37,11 +43,15 @@ The product images for the first category on the landing page are not visible du
 
 ## Impact
 
-This bug negatively impacts the visual appeal of the landing page and obstructs users from exploring and selecting products from the first category.
+This bug significantly impedes the admin user's ability to add new products to the application, affecting the product management workflow.
 
 ## Severity
 
-Medium - While not breaking functionality, the missing product images and UUIDs affect user engagement and the overall user experience.
+High - The error during product creation disrupts normal administrative workflows and negatively impacts product management.
+
+## Workaround
+
+Currently, there is no known workaround for this issue. Admin users cannot create new users until the bug is resolved.
 
 ## Related Bugs
 

@@ -5,7 +5,7 @@ import { buildUser } from '../../support/utils/test-data';
 const { customersHref, customersLabel } = leftSideBar;
 
 describe('Admin Customer Edit', () => {
-  it('TC-007: An admin user wants to update a new customer user account.', () => {
+  it('TC-008: An admin user wants to update a new customer user account.', () => {
     const newUserInfo = buildUser();
     cy.apiSignUp().then((user) => {
       cy.login({ admin: true });

@@ -16,6 +16,7 @@ export interface Product {
   price: number;
   description: string;
   imageId?: string;
+  imageFile?: string;
   category: string;
   quantity?: number;
   brand?: string;
@@ -102,6 +103,34 @@ declare global {
        * cy.adminDeleteCustomer('test@test.com', 'Test User')
        */
       adminDeleteCustomer(userEmail: string, fullName: string): void;
+
+      /**
+       * Custom command to add a new product by an admin.
+       * @param product Product object
+       * @example
+       * cy.adminAddNewProduct()
+       * cy.adminAddNewProduct({
+       * title: 'Product Title',
+       * price: 100,
+       * description: 'Product Description',
+       * category: 'Product Category',
+       * brand: 'Product Brand',
+       * imageFile: 'cypress/fixtures/test-image.jpg'
+       * })
+       */
+      adminAddNewProduct(product?: Product): Chainable<Product>;
+
+      /**
+       * Custom command to edit a product by an admin.
+       * @param productTitle Product title
+       * @param productInfo Product object
+       * @example
+       * cy.adminEditNewProduct('Product Title', { title: 'New Product Title' }})
+       */
+      adminEditNewProduct(
+        productTitle: string,
+        productInfo: Partial<Product>
+      ): Chainable<Partial<Product>>;
 
       /**
        * Custom command to login a user
@@ -227,6 +256,15 @@ declare global {
         address: { shipping: string; billing: string },
         paymentType: PaymentType
       ): Chainable<string>;
+
+      /**
+       * Custom command to add a new product via the api
+       * @param product Product object
+       * @returns Product object
+       * @example
+       * cy.apiAddProduct() // add a new product with random data
+       */
+      apiAddProduct(product?: Product): Chainable<Product>;
     }
   }
 }
