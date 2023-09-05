@@ -16,10 +16,10 @@ const apiSignUp = ({ user = buildUser() } = {}) => {
   });
 };
 
-const apiLogin = (email: string, password: string) => {
+const apiLogin = (email: string, password: string, admin = false) => {
   cy.request({
     method: 'POST',
-    url: '/api/v1/user/login',
+    url: `/api/v1/${admin ? 'admin' : 'user'}/login`,
     body: { email, password },
   }).then((response) => {
     cy.wrap(response.isOkStatusCode).should('eq', true);
@@ -33,10 +33,11 @@ const apiLogin = (email: string, password: string) => {
 
     const token = {
       token: bearerToken,
-      ttl: decodedBearerTokenPayload.exp + 36000,
+      ttl: (decodedBearerTokenPayload.exp + 36000) * 1000,
     };
 
     localStorage.setItem('token', JSON.stringify(token));
+    globalThis.accessToken = bearerToken;
     cy.wrap(token, { log: false }).as('token');
   });
 };

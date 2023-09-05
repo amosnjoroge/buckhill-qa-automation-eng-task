@@ -4,9 +4,7 @@ import { common } from '../../support/selectors/common';
 describe('Viewing Users Orders', () => {
   it('TC-006: A registered user wants to view their latest orders categorised by their status.', () => {
     cy.apiSignUp().then((user: User) => {
-      const { email, password } = user;
-      cy.login({ email, password });
-
+      cy.visit('/');
       cy.wait('@productsRequest').then(({ response }) => {
         const products: Product[] = response.body.data;
         const product = products[Math.floor(Math.random() * products.length)];

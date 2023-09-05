@@ -1,17 +1,19 @@
-# Cypress Test Automation Project
+# [Pet-Shop](https://pet-shop.buckhill.com.hr/) Automated Tests.
 
-This repository contains automated tests a pseudo eCommerce web application using Cypress and TypeScript.
+This repository contains automated tests of a pseudo eCommerce pet shop web application using Cypress and TypeScript.
 
 ## Table of Contents
 
-- [Cypress Test Automation Project](#cypress-test-automation-project)
+- [Pet-Shop Automated Tests.](#pet-shop-automated-tests)
   - [Table of Contents](#table-of-contents)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Configuration](#configuration)
   - [Running the tests](#running-the-tests)
+    - [Locally](#locally)
+    - [In the CI](#in-the-ci)
   - [Folder Structure](#folder-structure)
-  - [Bugs filled during testing](#bugs-filled-during-testing)
+  - [Bugs logged during testing](#bugs-logged-during-testing)
   - [Test Cases automated](#test-cases-automated)
 
 ## Prerequisites
@@ -26,13 +28,13 @@ Before you begin, ensure you have the following:
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/your-username/cypress-test-automation.git
+   git clone https://github.com/amosnjoroge/buckhill-qa-automation-eng-task.git
    ```
 
 2. Navigate to the project folder:
 
    ```bash
-   cd cypress-test-automation
+   cd buckhill-qa-automation-eng-task
    ```
 
 3. Install the dependencies:
@@ -54,13 +56,29 @@ The following environment variables are required to run the tests:
 
 ## Running the tests
 
-To run the tests, run the following command:
+### Locally
+
+To run all the tests locally in headless mode, run the following command:
 
 ```bash
 npm run cy:run
 ```
 
-_This will launch the Cypress Test Runner and execute the test suite._
+To run all the tests locally in headed mode, run the following command:
+
+```bash
+npm run cy:open
+```
+
+_This commands will launch the Cypress Test Runner and execute the test suite._
+
+### In the CI
+
+The project contains a [Github Actions](https://github.com/features/actions) workflow that run the test in the CI. The workflow is triggered by the creation of a pull request. The workflow definition can be found [here](.github/workflow/e2e-tests.yml)
+
+> 💬 **Note**
+>
+> In case of a failure the screenshot and videos are uploaded in the CI job's artifacts.
 
 ## Folder Structure
 
@@ -76,7 +94,7 @@ _This will launch the Cypress Test Runner and execute the test suite._
 - `package.json` - Project dependencies and scripts
 - `README.md` - Project documentation (you are here)
 
-## Bugs filled during testing
+## Bugs logged during testing
 
 - [QA-1: None of the Main Navigation Bar Items Navigate to the Correct Page](bugs/qa-1.md)
 - [QA-2: Logged-In Users (Admin and Normal) Are Logged Out Upon Page Refresh](bugs/qa-2.md)
