@@ -1,8 +1,10 @@
-name: End-to-End tests
+name: End-to-end tests
 on:
+  push:
+    branches: ['develop']
   pull_request:
-    branches:
-      - develop
+    branches: ['develop']
+
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
@@ -12,15 +14,4 @@ jobs:
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v5
-      # The video and screenshot artifacts will only be saved if there is a failure
-      - uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-      - uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: cypress-videos
-          path: cypress/videos
+        uses: cypress-io/github-action@v6
