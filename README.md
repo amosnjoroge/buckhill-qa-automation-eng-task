@@ -50,7 +50,7 @@ The following environment variables are required to run the tests:
 
 > 💬 **Note**
 >
-> These variable have already been configure in the [.env](.env) file. However, if you wish to change them, you can do so in the .env file.
+> These variable have already been configure in the [.env](.env) file. However, if you wish to change them, you can do so in this file.
 
 ## Running the tests
 
@@ -78,22 +78,22 @@ _This will launch the Cypress Test Runner and execute the test suite._
 
 ## Bugs filled during testing
 
-- [QA-1](bugs/qa-1.md)
-- [QA-2](bugs/qa-2.md)
-- [QA-3](bugs/qa-3.md)
-- [QA-4](bugs/qa-4.md)
-- [QA-5](bugs/qa-5.md)
-- [QA-6](bugs/qa-6.md)
+- [QA-1: None of the Main Navigation Bar Items Navigate to the Correct Page](bugs/qa-1.md)
+- [QA-2: Logged-In Users (Admin and Normal) Are Logged Out Upon Page Refresh](bugs/qa-2.md)
+- [QA-3: User Not Notified of Successful or Failed Registration](bugs/qa-3.md)
+- [QA-4: Error "Undefined array key 'category_uuid'" When Creating a Product by an Admin](bugs/qa-4.md)
+- [QA-5: User Receives "Failed to Create New Order" Error During Order payment](bugs/qa-5.md)
+- [QA-6: User Created by Admin Does Not Persist in the Database](bugs/qa-6.md)
 
 ## Test Cases automated
 
-- TC-001: #3
-- TC-002: #9
-- TC-003: #10
-- TC-004: #12
-- TC-006: #17
-- TC-007: #19
-- TC-008: #20
-- TC-009: #21
-- TC-010: #25
-- TC-011: #26
+- [TC-001: User registration to create a new account.](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/3)
+- [TC-002: Search products by product's title.](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/9)
+- [TC-003: Viewing the detailed information page of a specific product](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/10)
+- [TC-004: Viewing the detailed information page of a specific product](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/12)
+- [TC-006: A registered user wants to view their latest orders categorised by their status.](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/17)
+- [TC-007: An admin user wants to create a new customer user account.](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/19)
+- [TC-008: An admin user wants to update a new customer user account.](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/20)
+- [TC-009: An admin user wants to update a new customer user account.](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/21)
+- [TC-010: An admin user wants to add a new product.](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/25)
+- [TC-011: An admin user wants to edit a new product.](https://github.com/amosnjoroge/buckhill-qa-automation-eng-task/issues/26)
