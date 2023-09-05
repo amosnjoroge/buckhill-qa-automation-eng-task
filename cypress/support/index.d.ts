@@ -236,13 +236,15 @@ declare global {
        *
        * @param email user email
        * @param password user password
+       * @param admin login as admin
        *
        * @example
        * cy.apiLogin('test@test.com', 'userpassword')
        */
       apiLogin(
         email: string,
-        password: string
+        password: string,
+        admin?: boolean
       ): Chainable<{ token: string; ttl: string }>;
 
       /**
