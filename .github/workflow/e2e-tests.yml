@@ -1,5 +1,8 @@
 name: Pet Shop End-to-End tests
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - develop
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
