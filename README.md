@@ -74,7 +74,7 @@ _This commands will launch the Cypress Test Runner and execute the test suite._
 
 ### In the CI
 
-The project contains a [Github Actions](https://github.com/features/actions) workflow that run the test in the CI. The workflow is triggered by the creation of a pull request. The workflow definition can be found [here](.github/workflow/e2e-tests.yml)
+The project contains a [Github Actions](https://github.com/features/actions) workflow that run the test in the CI. The workflow is triggered by the creation of a pull request. The workflow definition can be found [here](.github/workflows/e2e-tests.yml)
 
 > 💬 **Note**
 >
