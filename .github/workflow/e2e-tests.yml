@@ -12,7 +12,7 @@ jobs:
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
       # The video and screenshot artifacts will only be saved if there is a failure
       - uses: actions/upload-artifact@v3
         if: failure()
