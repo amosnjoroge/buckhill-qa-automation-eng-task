@@ -37,7 +37,7 @@ export const common = {
     emailLabel: /Email/,
     emailAddressLabel: /Email Address/,
     phoneLabel: 'Phone Number',
-    addressLabel: /Address/,
+    addressLabel: /^Address\*/,
     locationLabel: 'Location',
     passwordLabel: /Password/,
     passwordConfirmationLabel: /Confirm Password/,

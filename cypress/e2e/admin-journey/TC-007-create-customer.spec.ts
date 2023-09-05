@@ -20,7 +20,6 @@ describe('Admin Customer Creation', () => {
         cy.contains(user.address).should('be.visible');
       });
 
-      cy.contains('button', common.navigationBar.logoutButton).click();
       cy.login({ email: user.email, password: user.password });
       cy.get(common.navigationBar.avatarAriaLabel).click();
       cy.contains(fullName).should('be.visible');

@@ -43,6 +43,7 @@ const fillNewUserForm = (
   const {
     firstNameLabel,
     lastNameLabel,
+    emailAddressLabel,
     emailLabel,
     phoneLabel,
     addressLabel,
@@ -71,7 +72,7 @@ const fillNewUserForm = (
         cy.wrap($input).type(user.last_name);
       });
   if (user.email)
-    cy.contains(emailLabel)
+    cy.contains(admin ? emailLabel : emailAddressLabel)
       .parent()
       .find('input')
       .then(($input) => {

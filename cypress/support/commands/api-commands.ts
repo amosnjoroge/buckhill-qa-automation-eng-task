@@ -37,6 +37,7 @@ const apiLogin = (email: string, password: string, admin = false) => {
     };
 
     localStorage.setItem('token', JSON.stringify(token));
+    globalThis.accessToken = bearerToken;
     cy.wrap(token, { log: false }).as('token');
   });
 };

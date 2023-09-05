@@ -11,6 +11,7 @@ This repository contains automated tests of a pseudo eCommerce pet shop web appl
   - [Configuration](#configuration)
   - [Running the tests](#running-the-tests)
     - [Locally](#locally)
+    - [In the CI](#in-the-ci)
   - [Folder Structure](#folder-structure)
   - [Bugs logged during testing](#bugs-logged-during-testing)
   - [Test Cases automated](#test-cases-automated)
@@ -57,19 +58,27 @@ The following environment variables are required to run the tests:
 
 ### Locally
 
-To run all the tests locally in headed mode, run the following command:
-
-```bash
-npm run cy:open
-```
-
 To run all the tests locally in headless mode, run the following command:
 
 ```bash
 npm run cy:run
 ```
 
+To run all the tests locally in headed mode, run the following command:
+
+```bash
+npm run cy:open
+```
+
 _This commands will launch the Cypress Test Runner and execute the test suite._
+
+### In the CI
+
+The project contains a [Github Actions](https://github.com/features/actions) workflow that run the test in the CI. The workflow is triggered by the creation of a pull request. The workflow definition can be found [here](.github/workflow/e2e-tests.yml)
+
+> 💬 **Note**
+>
+> In case of a failure the screenshot and videos are uploaded in the CI job's artifacts.
 
 ## Folder Structure
 
