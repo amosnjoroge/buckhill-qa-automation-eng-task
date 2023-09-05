@@ -27,13 +27,13 @@ Before you begin, ensure you have the following:
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/your-username/cypress-test-automation.git
+   git clone https://github.com/amosnjoroge/buckhill-qa-automation-eng-task.git
    ```
 
 2. Navigate to the project folder:
 
    ```bash
-   cd cypress-test-automation
+   cd buckhill-qa-automation-eng-task
    ```
 
 3. Install the dependencies:
