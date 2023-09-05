@@ -1,8 +1,5 @@
 name: End-to-End tests
-on:
-  pull_request:
-    branches:
-      - develop
+on: pull_request
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
