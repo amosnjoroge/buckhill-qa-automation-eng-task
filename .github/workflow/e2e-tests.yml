@@ -1,4 +1,4 @@
-name: Pet Shop End-to-End tests
+name: End-to-End tests
 on:
   pull_request:
     branches:
@@ -12,7 +12,7 @@ jobs:
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v5
       # The video and screenshot artifacts will only be saved if there is a failure
       - uses: actions/upload-artifact@v3
         if: failure()
